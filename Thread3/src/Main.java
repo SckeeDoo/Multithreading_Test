@@ -8,11 +8,15 @@ public class Main {
 
     }
 
+    public synchronized void increment() {
+        count++;
+    }
+
     public void doWork() {
         Thread t1 = new Thread(new Runnable() {
             public void run() {
                 for (int i = 0; i < 10000; i++) {
-                    count++;
+                    increment();
                 }
             }
         });
@@ -20,7 +24,7 @@ public class Main {
         Thread t2 = new Thread(new Runnable() {
             public void run() {
                 for (int i = 0 ; i < 10000 ; i++) {
-                    count++;
+                    increment();
                 }
             }
         });
