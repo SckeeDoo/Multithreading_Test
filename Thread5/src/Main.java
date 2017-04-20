@@ -1,18 +1,52 @@
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+class Processor implements Runnable {
+    private int id;
+
+    public Processor(int id) {
+        this.id = id;
+     }
+
+    public void run() {
+        System.out.println("Starting: " + id);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Complete: " + id);
+    }
+
+}
+
+
 public class Main {
 
-    private int count int = 0;
 
     public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(2);
 
-        Main main = new Main();
+        for (int i = 0 ; i < 5 ; i++) {
+            executor.submit(new Processor(i));
+        }
+
+        executor.shutdown();
+
+        System.out.println("All task submitted");
+
+        try {
+            executor.awaitTermination(1, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("All tasks completed");
     }
 
-    public void doWork() {
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        })
-    }
+
+
 }
